@@ -32,21 +32,45 @@ pub fn projectile_vec() -> Vec<tuples::Tuple> {
         velocity: tuples::vector(30.0, 50.0, 0.0)};
         // x_max = 260, y_max = 130
 
-    let environ1 = Environment{
-        gravity: tuples::vector(0.0, -9.8, 0.0),
-        wind: tuples::vector(-0.012, -0.005, 0.0)
+
+    // Environment for Projectile 1:-
+
+    // let environ1 = Environment{
+    //     gravity: tuples::vector(0.0, -9.8, 0.0),
+    //     wind: tuples::vector(-0.012, -0.005, 0.0) // randomly chosen values
+    // };
+
+    // Environment for Projectile 2:-
+
+    let environ2 = Environment {
+        gravity: tuples::vector(0.0,-9.8,0.0),
+        wind: tuples::vector(-0.02,-0.01,0.0) // stronger wind than environ1
     };
 
     let dt = 0.01;
     let mut positions_vec:Vec<tuples::Tuple> = vec![];
+
+    // Projectile 1:-
+
+    // while projectile.position.y >= 0.0 {
+    //     // println!("{:?}", projectile.position);
+    //     positions_vec.push(projectile.position);
+
+    //     projectile.position = tuples::add(projectile.position, tuples::multiply(dt,projectile.velocity));
+    //     projectile.velocity = tuples::add(projectile.velocity, tuples::multiply(dt,environ1.gravity));
+    //     projectile.velocity = tuples::add(projectile.velocity, environ1.wind);
+
+    // }
+
+    // Projectile 2:-
 
     while projectile.position.y >= 0.0 {
         // println!("{:?}", projectile.position);
         positions_vec.push(projectile.position);
 
         projectile.position = tuples::add(projectile.position, tuples::multiply(dt,projectile.velocity));
-        projectile.velocity = tuples::add(projectile.velocity, tuples::multiply(dt,environ1.gravity));
-        projectile.velocity = tuples::add(projectile.velocity, environ1.wind);
+        projectile.velocity = tuples::add(projectile.velocity, tuples::multiply(dt,environ2.gravity));
+        projectile.velocity = tuples::add(projectile.velocity, environ2.wind);
 
     }
 
@@ -80,6 +104,8 @@ pub fn projectile_plot() {
         ppm_string.push_str("\n");
     }
 
-    fs::write("renders/projectile.ppm", ppm_string).expect("");
+    // fs::write("renders/projectile.ppm", ppm_string).expect(""); // Projectile 1 file already written
+    fs::write("renders/projectile2.ppm", ppm_string).expect("");    
+
 }
 
