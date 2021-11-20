@@ -1,5 +1,5 @@
 #[path = "tuples.rs"]
-mod tuples;
+pub mod tuples;
 
 /*
 The Ray Tracer Challenge (Jamis Buck)
@@ -313,4 +313,69 @@ pub fn matrix_tests() {
     println!("\n{:?}", invert(transpose(f1)));
     println!("\n{:?}", transpose(invert(f1)));
     println!("{}", invert(transpose(f1)) == transpose(invert(f1)));
+}
+
+
+/*
+The Ray Tracer Challenge (Jamis Buck)
+-------------------------------------
+
+Chapter 4: Matrix Transformations
+(Yes, I know I should have defined the transforms in another file,
+but I was getting errors that just wouldn't go.)
+*/
+
+pub fn translation(x:f32, y:f32, z:f32) -> Matrix {
+    Matrix([
+        [1.0,0.0,0.0,x],
+        [0.0,1.0,0.0,y],
+        [0.0,0.0,1.0,z],
+        [0.0,0.0,0.0,1.0]
+    ])
+}
+
+pub fn scaling(x:f32, y:f32, z:f32) -> Matrix {
+    Matrix([
+        [x,0.0,0.0,0.0],
+        [0.0,y,0.0,0.0],
+        [0.0,0.0,z,0.0],
+        [0.0,0.0,0.0,1.0]
+    ])
+}
+
+pub fn transform_tests() {
+    let p1 = tuples::point(-3.0,4.0,5.0);
+    let p2 = tuples::point(-4.0,6.0,8.0);
+    let v1 = tuples::vector(-3.0,4.0,5.0);
+    let v2 = tuples::vector(-4.0,6.0,8.0);
+
+    let trans1 = translation(5.0,-3.0,2.0);
+    let trans2 = scaling(2.0,2.0,2.0);
+    let trans3 = scaling(2.0,3.0,4.0);
+
+    println!("{:?}", multiply_matrix_tup(trans1, p1));
+    println!("{:?}", multiply_matrix_tup(invert(trans1),p1));
+    println!("{}", tuples::equal_tuples(multiply_matrix_tup(trans1, v1), v1));
+
+    println!("{:?}", multiply_matrix_tup(trans3, p2));
+    println!("{:?}", multiply_matrix_tup(trans3, v2));
+    println!("{}", 
+        tuples::equal_tuples(
+            tuples::normalize(v2), 
+            tuples::normalize(
+                multiply_matrix_tup(trans2, v2)
+            )
+        )
+    );
+    println!("{}", tuples::equal_tuples(
+        tuples::normalize(v2), 
+            tuples::normalize(
+                multiply_matrix_tup(invert(trans2), v2))
+            
+        )
+    );
+
+    // println!("{:?}", tuples::normalize(v2));
+    // println!("{:?}", tuples::normalize(multiply_matrix_tup(trans2, v2)));
+
 }
