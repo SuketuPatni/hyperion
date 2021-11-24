@@ -462,4 +462,24 @@ pub fn transform_tests() {
     println!("{:?}", multiply_matrix_tup(shear5, p6));
     println!("{:?}", multiply_matrix_tup(shear6, p6));
 
+    // Chained-transform tests:-
+    let p7_0 = tuples::point(1.0,0.0,1.0);
+    let a = rotation_x(pi/2.0);
+    let b = scaling(5.0,5.0,5.0);
+    let c = translation(10.0,5.0,7.0);
+
+    let p7_1 = multiply_matrix_tup(a,p7_0);    
+    assert!(tuples::equal_tuples(p7_1,tuples::point(1.0,-1.0,0.0)));
+
+    let p7_2 = multiply_matrix_tup(b, p7_1);
+    println!("{:?}", p7_2);
+
+    let p7_3 = multiply_matrix_tup(c,p7_2);
+    println!("{:?}", p7_3);
+
+    let d = multiply_matrix(c, b);
+    let e = multiply_matrix(d, a);
+    assert!(tuples::equal_tuples(p7_3,multiply_matrix_tup(e,p7_0)));
+
+
 }
