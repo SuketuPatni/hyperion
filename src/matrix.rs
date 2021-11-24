@@ -481,5 +481,4 @@ pub fn transform_tests() {
     let e = multiply_matrix(d, a);
     assert!(tuples::equal_tuples(p7_3,multiply_matrix_tup(e,p7_0)));
 
-
 }
