@@ -341,8 +341,39 @@ pub fn scaling(x:f32, y:f32, z:f32) -> Matrix {
         [0.0,0.0,z,0.0],
         [0.0,0.0,0.0,1.0]
     ])
+
+    // Reflection across some axis: scale it by -1 on that axis 
+    // and by 1 on the two other axes.
 }
 
+pub fn rotation_x(angle:f32) -> Matrix {
+    Matrix([
+        [1.0,0.0,0.0,0.0],
+        [0.0,angle.cos(), -angle.sin(),0.0],
+        [0.0,angle.sin(), angle.cos(),0.0],
+        [0.0,0.0,0.0,1.0]
+    ])
+}
+
+pub fn rotation_y(angle:f32) -> Matrix {
+    Matrix([
+        [angle.cos(),0.0,angle.sin(),0.0],
+        [0.0,1.0,0.0,0.0],
+        [-angle.sin(),0.0,angle.cos(),0.0],
+        [0.0,0.0,0.0,1.0]
+    ])
+}
+
+pub fn rotation_z(angle:f32) -> Matrix {
+    Matrix([
+        [angle.cos(), -angle.sin(),0.0,0.0],
+        [angle.sin(), angle.cos(),0.0,0.0],
+        [0.0,0.0,1.0,0.0],
+        [0.0,0.0,0.0,1.0]
+    ])
+}
+
+#[allow(dead_code)]
 pub fn transform_tests() {
     let p1 = tuples::point(-3.0,4.0,5.0);
     let p2 = tuples::point(-4.0,6.0,8.0);
@@ -375,7 +406,29 @@ pub fn transform_tests() {
         )
     );
 
-    // println!("{:?}", tuples::normalize(v2));
-    // println!("{:?}", tuples::normalize(multiply_matrix_tup(trans2, v2)));
+    println!("{:?}", tuples::normalize(v2));
+    println!("{:?}", tuples::normalize(multiply_matrix_tup(trans2, v2)));
+
+    // Rotation tests
+    let pi:f32 = 3.14159265;
+    let p3 = tuples::point(0.0,1.0,0.0);
+    let eighth_x = rotation_x(pi/4.0);
+    let quarter_x = rotation_x(pi/2.0);
+    println!("{:?}", multiply_matrix_tup(eighth_x,p3));
+    println!("{:?}", multiply_matrix_tup(quarter_x,p3));
+    println!("{:?}", multiply_matrix_tup(invert(eighth_x),p3));
+    
+    let p4 = tuples::point(0.0,0.0,1.0);
+    let eighth_y = rotation_y(pi/4.0);
+    let quarter_y = rotation_y(pi/2.0);
+    println!("{:?}", multiply_matrix_tup(eighth_y,p4));
+    println!("{:?}", multiply_matrix_tup(quarter_y,p4));
+
+    let p5 = tuples::point(0.0,1.0,0.0);
+    let eighth_z = rotation_z(pi/4.0);
+    let quarter_z = rotation_z(pi/2.0);
+    println!("{:?}", multiply_matrix_tup(eighth_z,p5));
+    println!("{:?}", multiply_matrix_tup(quarter_z,p5));
+    
 
 }
