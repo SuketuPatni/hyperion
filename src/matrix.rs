@@ -373,6 +373,22 @@ pub fn rotation_z(angle:f32) -> Matrix {
     ])
 }
 
+pub fn shearing(
+    xy:f32, 
+    xz:f32, 
+    yx:f32, 
+    yz:f32, 
+    zx:f32, 
+    zy:f32
+) -> Matrix {
+    Matrix([
+        [1.0,xy,xz,0.0],
+        [yx,1.0,yz,0.0],
+        [zx,zy,1.0,0.0],
+        [0.0,0.0,0.0,1.0]
+    ])
+}
+
 #[allow(dead_code)]
 pub fn transform_tests() {
     let p1 = tuples::point(-3.0,4.0,5.0);
@@ -409,7 +425,7 @@ pub fn transform_tests() {
     println!("{:?}", tuples::normalize(v2));
     println!("{:?}", tuples::normalize(multiply_matrix_tup(trans2, v2)));
 
-    // Rotation tests
+    // Rotation tests:-
     let pi:f32 = 3.14159265;
     let p3 = tuples::point(0.0,1.0,0.0);
     let eighth_x = rotation_x(pi/4.0);
@@ -429,6 +445,21 @@ pub fn transform_tests() {
     let quarter_z = rotation_z(pi/2.0);
     println!("{:?}", multiply_matrix_tup(eighth_z,p5));
     println!("{:?}", multiply_matrix_tup(quarter_z,p5));
-    
+
+    // Shearing tests:-
+    let p6 = tuples::point(2.0,3.0,4.0);
+    let shear1 = shearing(1.0,0.0,0.0,0.0,0.0,0.0);
+    let shear2 = shearing(0.0,1.0,0.0,0.0,0.0,0.0);
+    let shear3 = shearing(0.0,0.0,1.0,0.0,0.0,0.0);
+    let shear4 = shearing(0.0,0.0,0.0,1.0,0.0,0.0);
+    let shear5 = shearing(0.0,0.0,0.0,0.0,1.0,0.0);
+    let shear6 = shearing(0.0,0.0,0.0,0.0,0.0,1.0);
+
+    println!("{:?}", multiply_matrix_tup(shear1, p6));
+    println!("{:?}", multiply_matrix_tup(shear2, p6));
+    println!("{:?}", multiply_matrix_tup(shear3, p6));
+    println!("{:?}", multiply_matrix_tup(shear4, p6));
+    println!("{:?}", multiply_matrix_tup(shear5, p6));
+    println!("{:?}", multiply_matrix_tup(shear6, p6));
 
 }
