@@ -7,12 +7,12 @@ mod canvas;
 mod matrix;
 
 pub fn clock_render() {
-    let mut canvas1 = canvas::canvas(40,40);
+    let mut canvas1 = canvas::canvas(80,80);
     // origin is (20,20)
     let yellow = canvas::color(1.0,1.0,0.0);
     
     // length of clock arm is 15 pixels
-    let mut p_12 = matrix::tuples::point(0.0,15.0,0.0);
+    let mut p_12 = matrix::tuples::point(0.0,30.0,0.0);
 
     let rotate = matrix::rotation_z(3.14159265/6.0);
 
@@ -20,15 +20,14 @@ pub fn clock_render() {
         // (0,15) should become (20,5)
         // So always (x + 20, 20 - y)
         let temp = matrix::multiply_matrix_tup(rotate,p_12);
-        println!("{:?}", temp);
         p_12 = temp;
         canvas1 = canvas::write_pixel(
-            canvas1, (temp.x.ceil() + 20.0) as usize, (20.0 - temp.y.ceil()) as usize, yellow
+            canvas1, (temp.x.ceil() + 40.0) as usize, (40.0 - temp.y.ceil()) as usize, yellow
         );
         // points_vec.push(matrix::multiply_matrix_tup(rotate,p_12));
     }
 
-    let mut ppm_string = canvas::header(40,40);
+    let mut ppm_string = canvas::header(80,80);
 
     for i in canvas1 {
         if ppm_string.len() % 70 == 69 {
