@@ -6,6 +6,7 @@ mod canvas;
 #[path = "matrix.rs"]
 mod matrix;
 
+#[allow(dead_code)]
 pub fn clock_render() {
     let mut canvas1 = canvas::canvas(80,80);
     // origin is (20,20)
