@@ -3,6 +3,7 @@ mod canvas;
 mod projectile;
 mod matrix;
 mod clock;
+mod spheres;
 
 fn main() {
     // tuples::tuple_tests();
@@ -10,5 +11,6 @@ fn main() {
     // projectile::projectile_plot();
     // matrix::matrix_tests();
     // matrix::transform_tests();
-    clock::clock_render();
+    // clock::clock_render();
+    spheres::ray_sphere_tests();
 }
