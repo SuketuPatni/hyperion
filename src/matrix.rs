@@ -325,6 +325,11 @@ Chapter 4: Matrix Transformations
 but I was getting errors that just wouldn't go.)
 */
 
+/*
+Note to self: Whenever I need tuples and matrices in a file, 
+always write matrix::tuples::<method/item/whatever>
+*/
+
 pub fn translation(x:f32, y:f32, z:f32) -> Matrix {
     Matrix([
         [1.0,0.0,0.0,x],

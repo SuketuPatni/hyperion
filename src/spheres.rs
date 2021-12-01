@@ -1,16 +1,20 @@
+/*
+The Ray Tracer Challenge (Jamis Buck)
+-------------------------------------
+
+Chapter 5: Ray-Sphere Intersections
+*/
+
 #[path = "matrix.rs"]
 mod matrix;
 
-#[path = "tuples.rs"]
-mod tuples;
-
 pub struct Ray {
-    pub origin: tuples::Tuple,
-    pub direction: tuples::Tuple
+    pub origin: matrix::tuples::Tuple,
+    pub direction: matrix::tuples::Tuple
 }
 
-pub fn position(ray: Ray, t:f32) -> tuples::Tuple {
-    tuples::add(ray.origin, tuples::multiply(t, ray.direction))
+pub fn position(ray: Ray, t:f32) -> matrix::tuples::Tuple {
+    matrix::tuples::add(ray.origin, matrix::tuples::multiply(t, ray.direction))
 }
 
 #[derive(Debug, Clone, PartialEq, Copy)]
@@ -33,10 +37,10 @@ pub struct Intersection {
 // }
 
 pub fn intersect(s:Sphere, r:Ray) -> Vec<Intersection> {
-    let sphere_to_ray = tuples::subtract(r.origin, tuples::point(0.0,0.0,0.0));
-    let a = tuples::dot_product(r.direction,r.direction);
-    let b = 2.0 * tuples::dot_product(r.direction, sphere_to_ray);
-    let c = tuples::dot_product(sphere_to_ray, sphere_to_ray) - 1.0;
+    let sphere_to_ray = matrix::tuples::subtract(r.origin, matrix::tuples::point(0.0,0.0,0.0));
+    let a = matrix::tuples::dot_product(r.direction,r.direction);
+    let b = 2.0 * matrix::tuples::dot_product(r.direction, sphere_to_ray);
+    let c = matrix::tuples::dot_product(sphere_to_ray, sphere_to_ray) - 1.0;
     let d = b * b - 4.0 * a * c;
 
     if d < 0.0 {
@@ -74,10 +78,18 @@ pub fn hit(vec:Vec<Intersection>) -> Vec<Intersection> {
     
 }
 
+pub fn transform_ray(ray:Ray, transform:matrix::Matrix) -> Ray {
+    Ray {
+        origin: matrix::multiply_matrix_tup(transform,ray.origin),
+        direction: matrix::multiply_matrix_tup(transform,ray.direction),
+    }
+}
+
+#[allow(dead_code)]
 pub fn ray_sphere_tests() {
     let r = Ray {
-        origin: tuples::point(2.0,3.0,4.0),
-        direction: tuples::vector(1.0,0.0,0.0)
+        origin: matrix::tuples::point(2.0,3.0,4.0),
+        direction: matrix::tuples::vector(1.0,0.0,0.0)
     };
     println!("{:?}", position(r,2.5));
 
@@ -89,29 +101,29 @@ pub fn ray_sphere_tests() {
 
 
     let r1 = Ray {
-        origin: tuples::point(0.0,0.0,-5.0),
-        direction: tuples::vector(0.0,0.0,1.0)
+        origin: matrix::tuples::point(0.0,0.0,-5.0),
+        direction: matrix::tuples::vector(0.0,0.0,1.0)
     };
     let r2 = Ray {
-        origin: tuples::point(0.0,1.0,-5.0),
-        direction: tuples::vector(0.0,0.0,1.0)
+        origin: matrix::tuples::point(0.0,1.0,-5.0),
+        direction: matrix::tuples::vector(0.0,0.0,1.0)
     };
     let r3 = Ray {
-        origin: tuples::point(0.0,2.0,-5.0),
-        direction: tuples::vector(0.0,0.0,1.0)
+        origin: matrix::tuples::point(0.0,2.0,-5.0),
+        direction: matrix::tuples::vector(0.0,0.0,1.0)
     };
     let r4 = Ray {
-        origin: tuples::point(0.0,0.0,0.0),
-        direction: tuples::vector(0.0,0.0,1.0)
+        origin: matrix::tuples::point(0.0,0.0,0.0),
+        direction: matrix::tuples::vector(0.0,0.0,1.0)
     };
     let r5 = Ray {
-        origin: tuples::point(0.0,0.0,5.0),
-        direction: tuples::vector(0.0,0.0,1.0)
+        origin: matrix::tuples::point(0.0,0.0,5.0),
+        direction: matrix::tuples::vector(0.0,0.0,1.0)
     };
 
     let r6 = Ray {
-        origin: tuples::point(0.0,0.0,-5.0),
-        direction: tuples::vector(0.0,0.0,1.0),
+        origin: matrix::tuples::point(0.0,0.0,-5.0),
+        direction: matrix::tuples::vector(0.0,0.0,1.0),
     };
     let s6 = sphere();
 
