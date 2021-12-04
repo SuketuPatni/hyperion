@@ -8,6 +8,7 @@ Chapter 5: Ray-Sphere Intersections
 #[path = "matrix.rs"]
 mod matrix;
 
+#[derive(Debug, Clone, Copy)]
 pub struct Ray {
     pub origin: matrix::tuples::Tuple,
     pub direction: matrix::tuples::Tuple
@@ -19,11 +20,26 @@ pub fn position(ray: Ray, t:f32) -> matrix::tuples::Tuple {
 
 #[derive(Debug, Clone, PartialEq, Copy)]
 pub struct Sphere {
-
+    pub transform:matrix::Matrix
 }
 
 pub fn sphere() -> Sphere {
-    Sphere {}
+    Sphere {
+        transform: matrix::Matrix(
+            [
+                [1.0,0.0,0.0,0.0],
+                [0.0,1.0,0.0,0.0],
+                [0.0,0.0,1.0,0.0],
+                [0.0,0.0,0.0,1.0]
+            ]
+        )
+    }
+}
+
+pub fn set_transform(s:Sphere, t:matrix::Matrix) -> Sphere {
+    Sphere {
+        transform:t
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Copy)]
@@ -37,6 +53,7 @@ pub struct Intersection {
 // }
 
 pub fn intersect(s:Sphere, r:Ray) -> Vec<Intersection> {
+    let r = transform_ray(r, matrix::invert(s.transform));
     let sphere_to_ray = matrix::tuples::subtract(r.origin, matrix::tuples::point(0.0,0.0,0.0));
     let a = matrix::tuples::dot_product(r.direction,r.direction);
     let b = 2.0 * matrix::tuples::dot_product(r.direction, sphere_to_ray);
@@ -182,5 +199,34 @@ pub fn ray_sphere_tests() {
     println!("{:?}", hit(vec![i7,i8]));
     println!("{:?}", hit(vec![i9,i10]));
     println!("{:?}", hit(vec![i1,i2,i3,i4]));
+
+}
+
+#[allow(dead_code)]
+pub fn ray_sphere_transform_tests() {
+    let r1 = Ray {
+        origin: matrix::tuples::point(1.0,2.0,3.0),
+        direction: matrix::tuples::vector(0.0,1.0,0.0)
+    };
+    let m1 = matrix::translation(3.0,4.0,5.0);
+    let m2 = matrix::scaling(2.0,3.0,4.0);
+
+    println!("{:?}", transform_ray(r1,m1));
+    println!("{:?}", transform_ray(r1,m2));
+
+    let r2 = Ray {
+        origin: matrix::tuples::point(0.0,0.0,-5.0),
+        direction: matrix::tuples::vector(0.0,0.0,1.0),
+    };
+    let mut s1 = sphere();
+    s1 = set_transform(s1, matrix::scaling(2.0,2.0,2.0));
+    let mut s2 = sphere();
+    s2 = set_transform(s2, matrix::translation(5.0,0.0,0.0));
+
+    let xs1 = intersect(s1,r2);
+    let xs2 = intersect(s2,r2);
+
+    println!("{:#?}", xs1);
+    println!("{:#?}", xs2);
 
 }

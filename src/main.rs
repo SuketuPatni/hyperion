@@ -12,5 +12,6 @@ fn main() {
     // matrix::matrix_tests();
     // matrix::transform_tests();
     // clock::clock_render();
-    spheres::ray_sphere_tests();
+    // spheres::ray_sphere_tests();
+    spheres::ray_sphere_transform_tests();
 }
