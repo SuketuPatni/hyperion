@@ -4,6 +4,7 @@ mod projectile;
 mod matrix;
 mod clock;
 mod spheres;
+mod sphere_shadows;
 
 fn main() {
     // tuples::tuple_tests();
@@ -13,5 +14,6 @@ fn main() {
     // matrix::transform_tests();
     // clock::clock_render();
     // spheres::ray_sphere_tests();
-    spheres::ray_sphere_transform_tests();
+    // spheres::ray_sphere_transform_tests();
+    sphere_shadows::shadow1_plot();
 }

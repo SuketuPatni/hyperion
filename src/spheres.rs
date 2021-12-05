@@ -5,8 +5,10 @@ The Ray Tracer Challenge (Jamis Buck)
 Chapter 5: Ray-Sphere Intersections
 */
 
+use std::cmp::Ordering::Equal;
+
 #[path = "matrix.rs"]
-mod matrix;
+pub mod matrix;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Ray {
@@ -36,7 +38,7 @@ pub fn sphere() -> Sphere {
     }
 }
 
-pub fn set_transform(s:Sphere, t:matrix::Matrix) -> Sphere {
+pub fn set_transform(_s:Sphere, t:matrix::Matrix) -> Sphere {
     Sphere {
         transform:t
     }
@@ -81,7 +83,7 @@ pub fn intersect(s:Sphere, r:Ray) -> Vec<Intersection> {
 pub fn hit(vec:Vec<Intersection>) -> Vec<Intersection> {
 
     let mut vec2 = vec;
-    vec2.sort_by(|a, b| a.t.partial_cmp(&b.t).unwrap());
+    vec2.sort_by(|a, b| a.t.partial_cmp(&b.t).unwrap_or(Equal));
 
     let mut hit_value = vec![];
     for i in vec2 {
