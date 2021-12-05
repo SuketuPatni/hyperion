@@ -62,7 +62,7 @@ pub fn hadamard_product(col1: Color, col2: Color) -> Color {
 
 pub fn canvas(width:usize, height:usize) -> Vec<Vec<Color>> {
     // let mut pixeled: Vec<Vec<Color>> = vec![];
-    vec![vec![color(0.0,0.0,0.0); width]; height]
+    vec![vec![color(0.0,1.0,0.0); width]; height]
 }
 
 pub fn write_pixel(
