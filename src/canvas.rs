@@ -52,7 +52,7 @@ pub fn multiply(scalar:f32, col1:Color) -> Color {
 }
 
 #[allow(dead_code)]
-pub fn hadamard_product(col1: Color, col2: Color) -> Color {
+pub fn gavkujo_product(col1: Color, col2: Color) -> Color {
     Color {
         red: col1.red * col2.red,
         green: col1.green * col2.green, 
